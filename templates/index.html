@@ -732,6 +732,7 @@
 
         let map;
         let markers = {};
+        let clusterCircles = [];
         let currentUser = null;
         let googleAccessToken = null;
         let currentPopupPark = null;
@@ -740,6 +741,9 @@
         let galleryImages = [];
         let galleryIndex = 0;
         let isSyncing = false;
+
+        // Clustering threshold in miles
+        const CLUSTER_THRESHOLD_MILES = 30;
 
         // =====================================================
         // INITIALIZATION
@@ -999,6 +1003,9 @@
 
                 markers[name] = marker;
             });
+
+            // Draw cluster circles
+            drawClusterCircles(PARKS_DATA);
         }
 
         // =====================================================
@@ -1373,6 +1380,128 @@
                 'park': 'tree'
             };
             return icons[type] || 'tree';
+        }
+
+        function haversineDistance(lat1, lng1, lat2, lng2) {
+            // Calculate distance between two points in miles using Haversine formula
+            const R = 3959; // Earth's radius in miles
+
+            const lat1Rad = lat1 * Math.PI / 180;
+            const lng1Rad = lng1 * Math.PI / 180;
+            const lat2Rad = lat2 * Math.PI / 180;
+            const lng2Rad = lng2 * Math.PI / 180;
+
+            const dlat = lat2Rad - lat1Rad;
+            const dlng = lng2Rad - lng1Rad;
+
+            const a = Math.sin(dlat / 2) ** 2 + Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dlng / 2) ** 2;
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c;
+        }
+
+        function clusterParks(parks, thresholdMiles = CLUSTER_THRESHOLD_MILES) {
+            // Group parks within threshold distance of each other
+            const validParks = Object.entries(parks)
+                .filter(([name, coords]) => coords.lat && coords.lng)
+                .map(([name, coords]) => ({ name, coords }));
+
+            const clusters = [];
+            const assigned = new Set();
+
+            for (const park of validParks) {
+                if (assigned.has(park.name)) continue;
+
+                // Start a new cluster with this park
+                const cluster = [park.name];
+                assigned.add(park.name);
+
+                // Find all parks within threshold
+                for (const otherPark of validParks) {
+                    if (assigned.has(otherPark.name)) continue;
+
+                    const distance = haversineDistance(
+                        park.coords.lat, park.coords.lng,
+                        otherPark.coords.lat, otherPark.coords.lng
+                    );
+
+                    if (distance <= thresholdMiles) {
+                        cluster.push(otherPark.name);
+                        assigned.add(otherPark.name);
+                    }
+                }
+
+                clusters.push(cluster);
+            }
+
+            return clusters;
+        }
+
+        function drawClusterCircles(parks) {
+            // Clear existing cluster circles
+            clusterCircles.forEach(circle => map.removeLayer(circle));
+            clusterCircles = [];
+
+            // Get clusters
+            const clusters = clusterParks(parks);
+
+            // Only draw circles for clusters with more than 1 park
+            clusters.filter(cluster => cluster.length > 1).forEach((cluster, index) => {
+                // Calculate cluster center and radius
+                let centerLat = 0;
+                let centerLng = 0;
+                let maxDistance = 0;
+
+                // Calculate center
+                cluster.forEach(parkName => {
+                    const coords = parks[parkName];
+                    if (coords && coords.lat && coords.lng) {
+                        centerLat += coords.lat;
+                        centerLng += coords.lng;
+                    }
+                });
+                centerLat /= cluster.length;
+                centerLng /= cluster.length;
+
+                // Calculate radius (maximum distance from center to any park)
+                cluster.forEach(parkName => {
+                    const coords = parks[parkName];
+                    if (coords && coords.lat && coords.lng) {
+                        const distance = haversineDistance(centerLat, centerLng, coords.lat, coords.lng);
+                        maxDistance = Math.max(maxDistance, distance);
+                    }
+                });
+
+                // Add some padding to the radius
+                const radiusMeters = (maxDistance + 5) * 1609.34; // Convert miles to meters
+
+                // Create circle
+                const circle = L.circle([centerLat, centerLng], {
+                    color: '#4285f4',
+                    fillColor: '#4285f4',
+                    fillOpacity: 0.1,
+                    radius: radiusMeters,
+                    weight: 2,
+                    dashArray: '5, 10'
+                }).addTo(map);
+
+                // Add popup with cluster info
+                const parkList = cluster.map(name => {
+                    const driveInfo = DRIVE_TIMES[name] || {};
+                    const duration = driveInfo.duration_text || 'Unknown';
+                    return `• ${name} (${duration})`;
+                }).join('<br>');
+
+                circle.bindPopup(`
+                    <div style="min-width: 250px;">
+                        <h4>Cluster ${index + 1} (${cluster.length} parks)</h4>
+                        <p style="font-size: 12px; color: #666;">Parks within ${CLUSTER_THRESHOLD_MILES} miles:</p>
+                        <div style="font-size: 13px;">${parkList}</div>
+                    </div>
+                `);
+
+                clusterCircles.push(circle);
+            });
         }
 
         function sanitizeKey(str) {
