@@ -225,12 +225,15 @@
 
         .park-popup .photo-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
+            grid-template-columns: repeat(4, 60px);
+            gap: 8px;
             margin-top: 10px;
+            justify-content: start;
         }
 
         .park-popup .photo-thumb {
+            width: 60px;
+            height: 60px;
             aspect-ratio: 1;
             object-fit: cover;
             border-radius: 4px;
@@ -258,7 +261,26 @@
         .park-popup .no-photos {
             color: #888;
             font-style: italic;
-            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .park-popup .add-photos-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .park-popup .add-photos-btn:hover {
+            background: #3367d6;
+        }
+
+        font-size: 13px;
         }
 
         .park-popup .syncing {
@@ -667,6 +689,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <!-- Google API for Photos -->
     <script src="https://apis.google.com/js/api.js"></script>
@@ -682,7 +705,7 @@
                 authDomain: "YOUR_PROJECT.firebaseapp.com",
                 databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
                 projectId: "YOUR_PROJECT",
-                storageBucket: "YOUR_PROJECT.appspot.com",
+                storageBucket: "YOUR_PROJECT.firebasestorage.app",
                 messagingSenderId: "YOUR_SENDER_ID",
                 appId: "YOUR_APP_ID"
             },
@@ -711,6 +734,7 @@
         let markers = {};
         let currentUser = null;
         let googleAccessToken = null;
+        let currentPopupPark = null;
         let visitedParks = {};
         let parkPhotos = {};
         let galleryImages = [];
@@ -795,8 +819,7 @@
 
         function signIn() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            // Request Google Photos read access
-            provider.addScope('https://www.googleapis.com/auth/photoslibrary.readonly');
+            // Just need basic user info for authentication
 
             // Force consent screen to ensure we get the Photos scope
             provider.setCustomParameters({
@@ -836,46 +859,9 @@
                     localStorage.setItem('googleAccessToken', googleAccessToken);
                     console.log('✅ Access token stored:', accessToken.substring(0, 20) + '...');
 
-                    // Debug: Check what scopes this token actually has
-                    console.log('🔍 Checking token scopes...');
-                    fetch('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + accessToken)
-                        .then(res => res.json())
-                        .then(tokenInfo => {
-                            console.log('🔍 Token info:', tokenInfo);
-                            console.log('🔍 Granted scopes:', tokenInfo.scope);
-                            if (tokenInfo.scope && tokenInfo.scope.includes('photoslibrary')) {
-                                console.log('✅ Photos scope is present in token');
-                            } else {
-                                console.log('❌ Photos scope is MISSING from token');
-                                console.log('💡 Available scopes:', tokenInfo.scope);
-                            }
-                        })
-                        .catch(err => console.error('❌ Token info check failed:', err));
-
-                    // Test if token works with other Google APIs
-                    console.log('🧪 Testing token with Google People API...');
-                    fetch('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses', {
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then(res => {
-                            console.log('👤 People API response status:', res.status);
-                            return res.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                console.log('👤 People API error:', data.error);
-                            } else {
-                                console.log('✅ People API works - token is valid');
-                            }
-                        })
-                        .catch(err => console.log('👤 People API test failed:', err));
-
-                    // Trigger photo sync now that we have confirmed token
-                    console.log('🔄 Triggering photo sync after successful token storage...');
-                    syncPhotosFromGoogle();
+                    // Firebase Storage photo uploads are ready!
+                    console.log('✅ Signed in successfully - ready for photo uploads');
+                    updateSyncStatus('Ready to upload photos', true);
                 } else {
                     console.error('❌ No access token found in sign-in result');
                     console.log('🔐 Full result object:', JSON.stringify(result, null, 2));
@@ -1019,237 +1005,149 @@
         // GOOGLE PHOTOS SYNC
         // =====================================================
 
-        async function syncPhotosFromGoogle() {
-            // Get token from storage or current session
-            let token = googleAccessToken || localStorage.getItem('googleAccessToken');
+        // =====================================================
+        // GOOGLE PHOTOS PICKER API (NEW APPROACH)
+        // =====================================================
 
-            console.log('=== Photo Sync Debug Info ===');
-            console.log('currentUser:', currentUser ? currentUser.uid : 'null');
-            console.log('googleAccessToken (memory):', googleAccessToken ? 'Present' : 'null');
-            console.log('googleAccessToken (localStorage):', localStorage.getItem('googleAccessToken') ? 'Present' : 'null');
-            console.log('Final token to use:', token ? 'Present' : 'null');
+        async function openPhotoPicker(parkName) {
+            console.log(`📸 Opening photo upload for park: ${parkName}`);
 
-            if (!token || !currentUser) {
-                console.log('❌ No access token available for photo sync');
-                updateSyncStatus('Sign in needed', false);
+            if (!currentUser) {
+                alert('Please sign in first to upload photos');
                 return;
             }
 
-            if (isSyncing) {
-                console.log('⏳ Already syncing, skipping');
+            // Create a hidden file input for photos
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.multiple = true;
+            fileInput.style.display = 'none';
+
+            fileInput.onchange = async (event) => {
+                const files = Array.from(event.target.files);
+                if (files.length > 0) {
+                    console.log(`📷 Selected ${files.length} files for upload`);
+                    await uploadPhotosToFirebase(parkName, files);
+                }
+                // Clean up
+                document.body.removeChild(fileInput);
+            };
+
+            // Add to DOM and trigger click
+            document.body.appendChild(fileInput);
+            fileInput.click();
+        }
+
+        async function uploadPhotosToFirebase(parkName, files) {
+            if (!currentUser) {
+                console.error('❌ No user logged in');
                 return;
             }
-            isSyncing = true;
 
-            updateSyncStatus('Syncing photos...', true);
-            console.log('🔄 Starting photo sync...');
+            console.log(`📤 Uploading ${files.length} photos for ${parkName}`);
+
+            // Show progress
+            updateSyncStatus(`Uploading ${files.length} photos...`, true);
 
             try {
-                // Fetch all albums
-                const albums = await fetchGooglePhotosAlbums(token);
-                console.log(`🗂️ Found ${albums.length} total albums`);
-                console.log('📋 Album titles:', albums.map(a => a.title));
+                const key = sanitizeKey(parkName);
+                const existingPhotos = parkPhotos[key] || [];
+                const newPhotos = [];
 
-                // Match albums to parks
-                const parkNames = Object.keys(PARKS_DATA);
-                console.log(`🏞️ Have ${parkNames.length} parks to match against`);
-                let matchedCount = 0;
+                // Upload each file to Firebase Storage
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    console.log(`📤 Uploading ${file.name} (${i + 1}/${files.length})`);
 
-                for (const album of albums) {
-                    console.log(`🔍 Checking album: "${album.title}"`);
-                    const matchedPark = findMatchingPark(album.title, parkNames);
+                    // Create unique filename (ensure no spaces or special chars)
+                    const timestamp = Date.now();
+                    const fileExtension = file.name.split('.').pop();
+                    const filename = `${key}_${timestamp}_${i}.${fileExtension}`;
+                    const storagePath = `parks/${currentUser.uid}/${filename}`;
 
-                    if (matchedPark) {
-                        matchedCount++;
-                        console.log(`✅ Matched album "${album.title}" to park "${matchedPark}"`);
+                    console.log(`🔍 Upload path: ${storagePath}`);
 
-                        // Fetch photos from this album
-                        const photos = await fetchAlbumPhotos(token, album.id);
-                        console.log(`📷 Album "${album.title}" has ${photos.length} photos`);
+                    try {
+                        // Upload to Firebase Storage with error handling
+                        const storageRef = firebase.storage().ref(storagePath);
+                        const uploadTask = storageRef.put(file);
 
-                        if (photos.length > 0) {
-                            // Save to Firebase
-                            const key = sanitizeKey(matchedPark);
-                            console.log(`💾 Saving photos to Firebase key: ${key}`);
-                            await firebase.database()
-                                .ref(`users/${currentUser.uid}/photos/${key}`)
-                                .set(photos);
+                        // Wait for upload to complete
+                        await uploadTask;
+                        console.log(`✅ Upload complete: ${filename}`);
+
+                        // Get download URL
+                        const downloadURL = await storageRef.getDownloadURL();
+                        console.log(`🔗 Download URL obtained: ${downloadURL.substring(0, 50)}...`);
+
+                        newPhotos.push({
+                            id: `firebase_${timestamp}_${i}`,
+                            url: downloadURL,
+                            thumbnail: downloadURL, // Firebase Storage can generate thumbnails
+                            filename: file.name,
+                            storagePath: storagePath,
+                            creationTime: new Date().toISOString(),
+                            isFirebase: true
+                        });
+
+                        // Update progress
+                        updateSyncStatus(`Uploaded ${i + 1}/${files.length} photos...`, true);
+
+                    } catch (uploadError) {
+                        console.error(`💥 Upload failed for ${filename}:`, uploadError);
+                        if (uploadError.code === 'storage/unauthorized') {
+                            throw new Error('Firebase Storage permission denied. Check your Firebase Storage rules.');
+                        } else if (uploadError.code === 'storage/unknown') {
+                            throw new Error('Firebase Storage error. Check your Firebase configuration and CORS settings.');
+                        } else {
+                            throw uploadError;
                         }
-                    } else {
-                        console.log(`❌ No match found for album: "${album.title}"`);
                     }
                 }
 
-                updateSyncStatus(`Synced ${matchedCount} albums`, false);
-                console.log(`🎉 Photo sync complete. Matched ${matchedCount} albums.`);
+                // Combine with existing photos (avoid duplicates by filename)
+                const allPhotos = [...existingPhotos];
+                newPhotos.forEach(newPhoto => {
+                    if (!allPhotos.some(existing => existing.filename === newPhoto.filename)) {
+                        allPhotos.push(newPhoto);
+                    }
+                });
+
+                // Save photo metadata to Firebase Realtime Database
+                await firebase.database()
+                    .ref(`users/${currentUser.uid}/photos/${key}`)
+                    .set(allPhotos);
+
+                // Update local cache
+                parkPhotos[key] = allPhotos;
+
+                console.log(`✅ Uploaded ${newPhotos.length} photos for ${parkName}`);
+                updateSyncStatus('Upload complete!', false);
+
+                // Refresh the popup if it's open
+                if (currentPopupPark === parkName) {
+                    const parkData = PARKS_DATA[parkName];
+                    const driveData = DRIVE_TIMES[sanitizeKey(parkName)] || {};
+                    const isVisited = visitedParks[sanitizeKey(parkName)] !== undefined;
+                    showParkPopup(parkName, [parkData.lat, parkData.lng], driveData, isVisited);
+                }
+
+                alert(`Successfully uploaded ${newPhotos.length} photos to ${parkName}!`);
 
             } catch (error) {
-                console.error('💥 Photo sync error:', error);
-                console.error('🔍 Error details:', {
-                    message: error.message,
-                    stack: error.stack,
-                    name: error.name
-                });
-
-                if (error.message.includes('401') || error.message.includes('403')) {
-                    console.log('🔒 Token appears to be invalid or expired');
-                    updateSyncStatus('Re-auth needed', false);
-                    localStorage.removeItem('googleAccessToken');
-                    googleAccessToken = null;
-                } else {
-                    updateSyncStatus('Sync failed', false);
-                }
+                console.error('💥 Error uploading photos:', error);
+                updateSyncStatus('Upload failed', false);
+                alert('Failed to upload photos. Please check your connection and try again.');
             }
-
-            isSyncing = false;
-        }
-
-        async function fetchGooglePhotosAlbums(token) {
-            console.log('📡 Fetching Google Photos albums...');
-
-            // First, test basic Photos API connectivity
-            console.log('🧪 Testing basic Photos API access...');
-            try {
-                const testResponse = await fetch('https://photoslibrary.googleapis.com/v1/', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                console.log('🧪 Basic Photos API test:', testResponse.status, testResponse.statusText);
-                if (!testResponse.ok) {
-                    const testError = await testResponse.text();
-                    console.log('🧪 Basic API test error:', testError);
-                }
-            } catch (e) {
-                console.log('🧪 Basic API test failed:', e);
-            }
-
-            const albums = [];
-            let pageToken = null;
-            let pageCount = 0;
-
-            do {
-                pageCount++;
-                const url = new URL('https://photoslibrary.googleapis.com/v1/albums');
-                url.searchParams.set('pageSize', '50');
-                if (pageToken) url.searchParams.set('pageToken', pageToken);
-
-                console.log(`📄 Fetching page ${pageCount}: ${url.toString()}`);
-                console.log('🔐 Authorization header:', `Bearer ${token.substring(0, 20)}...`);
-
-                const response = await fetch(url, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                console.log(`📬 Response status: ${response.status} ${response.statusText}`);
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('❌ Albums fetch error response:', errorText);
-
-                    // Additional error analysis
-                    console.log('🔍 Response headers:', Object.fromEntries(response.headers.entries()));
-
-                    if (response.status === 403) {
-                        console.log('🚨 403 Error Analysis:');
-                        console.log('1. API Enabled: Check https://console.cloud.google.com/apis/api/photoslibrary.googleapis.com');
-                        console.log('2. Billing Enabled: Check https://console.cloud.google.com/billing');
-                        console.log('3. Quota Limits: Check https://console.cloud.google.com/apis/api/photoslibrary.googleapis.com/quotas');
-                        console.log('4. OAuth Client: Check https://console.cloud.google.com/apis/credentials');
-
-                        try {
-                            const errorObj = JSON.parse(errorText);
-                            if (errorObj.error && errorObj.error.details) {
-                                console.log('📋 Error details:', errorObj.error.details);
-                            }
-                        } catch (e) {
-                            // Ignore JSON parse errors
-                        }
-                    }
-
-                    throw new Error(`Albums fetch failed: ${response.status} - ${errorText}`);
-                }
-
-                const data = await response.json();
-                console.log('📊 Albums page data:', {
-                    albumsInPage: data.albums ? data.albums.length : 0,
-                    hasNextPage: !!data.nextPageToken
-                });
-
-                albums.push(...(data.albums || []));
-                pageToken = data.nextPageToken;
-
-            } while (pageToken);
-
-            console.log(`✅ Total albums fetched: ${albums.length}`);
-            return albums;
-        }
-
-        async function fetchAlbumPhotos(token, albumId, maxPhotos = 50) {
-            const photos = [];
-
-            const response = await fetch('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    albumId: albumId,
-                    pageSize: Math.min(maxPhotos, 100)
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`Photos fetch failed: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const items = data.mediaItems || [];
-
-            for (const item of items.slice(0, maxPhotos)) {
-                const baseUrl = item.baseUrl;
-                photos.push({
-                    id: item.id,
-                    url: `${baseUrl}=w1024-h768`,
-                    thumbnail: `${baseUrl}=w200-h200-c`,
-                    filename: item.filename || '',
-                    creationTime: item.mediaMetadata?.creationTime || ''
-                });
-            }
-
-            return photos;
-        }
-
-        function findMatchingPark(albumTitle, parkNames) {
-            const normalizedAlbum = normalizeName(albumTitle);
-
-            for (const park of parkNames) {
-                const normalizedPark = normalizeName(park);
-
-                // Exact match
-                if (normalizedAlbum === normalizedPark) return park;
-
-                // Album contains park name
-                if (normalizedAlbum.includes(normalizedPark)) return park;
-
-                // Park name contains album
-                if (normalizedPark.includes(normalizedAlbum) && normalizedAlbum.length > 5) return park;
-            }
-
-            return null;
-        }
-
-        function normalizeName(name) {
-            return name.toLowerCase()
-                .replace(/\s*(sp|shp|sra|sb|snr|state park|state beach|state historic park)\s*/gi, '')
-                .replace(/[^a-z0-9\s]/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
         }
 
         function updateSyncStatus(text, syncing) {
             const el = document.getElementById('syncStatus');
-            el.textContent = text;
-            el.className = 'sync-status' + (syncing ? ' syncing' : '');
+            if (el) {
+                el.textContent = text;
+                el.className = 'sync-status' + (syncing ? ' syncing' : '');
+            }
         }
 
         // =====================================================
@@ -1296,6 +1194,7 @@
         // =====================================================
 
         function showParkPopup(name, coords, driveInfo, isVisited) {
+            currentPopupPark = name;
             const visitData = visitedParks[sanitizeKey(name)] || {};
             const photos = parkPhotos[sanitizeKey(name)] || [];
 
@@ -1324,8 +1223,11 @@
                             </div>
                             ${photos.length > 6 ? `<a class="view-all-photos" href="#" onclick="openGallery('${escapeHtml(name)}', 0); return false;">View all ${photos.length} photos</a>` : ''}
                         ` : `
-                            <p class="no-photos">No photos yet. Create a Google Photos album named "${name.replace(/\s*(SP|SHP|SRA|SB|SNR)$/i, '')}" to sync photos automatically.</p>
+                            <p class="no-photos">No photos yet.</p>
                         `}
+                        <button class="add-photos-btn" onclick="openPhotoPicker('${escapeHtml(name)}')">
+                            � Upload Photos
+                        </button>
                     </div>
                 </div>
             `;
@@ -1474,7 +1376,7 @@
         }
 
         function sanitizeKey(str) {
-            return str.replace(/[.#$\/\[\]]/g, '_');
+            return str.replace(/[.#$\/\[\]\s]/g, '_');
         }
 
         function escapeHtml(str) {
