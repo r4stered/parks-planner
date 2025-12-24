@@ -797,9 +797,16 @@
             // Request Google Photos read access
             provider.addScope('https://www.googleapis.com/auth/photoslibrary.readonly');
 
+            // Force consent screen to ensure we get the Photos scope
+            provider.setCustomParameters({
+                prompt: 'consent'
+            });
+
             firebase.auth().signInWithPopup(provider).then((result) => {
                 // Get Google access token for Photos API
-                googleAccessToken = result.credential.accessToken;
+                const credential = firebase.auth.GoogleAuthProvider.credentialFromResult(result);
+                googleAccessToken = credential.accessToken;
+                console.log('Access token obtained:', googleAccessToken ? 'Yes' : 'No');
                 localStorage.setItem('googleAccessToken', googleAccessToken);
             }).catch((error) => {
                 console.error('Sign in error:', error);
@@ -909,55 +916,78 @@
             // Get token from storage or current session
             let token = googleAccessToken || localStorage.getItem('googleAccessToken');
 
+            console.log('=== Photo Sync Debug Info ===');
+            console.log('currentUser:', currentUser ? currentUser.uid : 'null');
+            console.log('googleAccessToken (memory):', googleAccessToken ? 'Present' : 'null');
+            console.log('googleAccessToken (localStorage):', localStorage.getItem('googleAccessToken') ? 'Present' : 'null');
+            console.log('Final token to use:', token ? 'Present' : 'null');
+
             if (!token || !currentUser) {
-                console.log('No access token available for photo sync');
+                console.log('❌ No access token available for photo sync');
                 return;
             }
 
-            if (isSyncing) return;
+            if (isSyncing) {
+                console.log('⏳ Already syncing, skipping');
+                return;
+            }
             isSyncing = true;
 
             updateSyncStatus('Syncing photos...', true);
+            console.log('🔄 Starting photo sync...');
 
             try {
                 // Fetch all albums
                 const albums = await fetchGooglePhotosAlbums(token);
-                console.log(`Found ${albums.length} albums`);
+                console.log(`🗂️ Found ${albums.length} total albums`);
+                console.log('📋 Album titles:', albums.map(a => a.title));
 
                 // Match albums to parks
                 const parkNames = Object.keys(PARKS_DATA);
+                console.log(`🏞️ Have ${parkNames.length} parks to match against`);
                 let matchedCount = 0;
 
                 for (const album of albums) {
+                    console.log(`🔍 Checking album: "${album.title}"`);
                     const matchedPark = findMatchingPark(album.title, parkNames);
 
                     if (matchedPark) {
                         matchedCount++;
-                        console.log(`Matched album "${album.title}" to park "${matchedPark}"`);
+                        console.log(`✅ Matched album "${album.title}" to park "${matchedPark}"`);
 
                         // Fetch photos from this album
                         const photos = await fetchAlbumPhotos(token, album.id);
+                        console.log(`📷 Album "${album.title}" has ${photos.length} photos`);
 
                         if (photos.length > 0) {
                             // Save to Firebase
                             const key = sanitizeKey(matchedPark);
+                            console.log(`💾 Saving photos to Firebase key: ${key}`);
                             await firebase.database()
                                 .ref(`users/${currentUser.uid}/photos/${key}`)
                                 .set(photos);
                         }
+                    } else {
+                        console.log(`❌ No match found for album: "${album.title}"`);
                     }
                 }
 
                 updateSyncStatus(`Synced ${matchedCount} albums`, false);
-                console.log(`Photo sync complete. Matched ${matchedCount} albums.`);
+                console.log(`🎉 Photo sync complete. Matched ${matchedCount} albums.`);
 
             } catch (error) {
-                console.error('Photo sync error:', error);
+                console.error('💥 Photo sync error:', error);
+                console.error('🔍 Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
 
                 if (error.message.includes('401') || error.message.includes('403')) {
-                    // Token expired, need to re-auth
+                    console.log('🔒 Token appears to be invalid or expired');
                     updateSyncStatus('Re-auth needed', false);
                     localStorage.removeItem('googleAccessToken');
+                    googleAccessToken = null;
                 } else {
                     updateSyncStatus('Sync failed', false);
                 }
@@ -967,28 +997,44 @@
         }
 
         async function fetchGooglePhotosAlbums(token) {
+            console.log('📡 Fetching Google Photos albums...');
             const albums = [];
             let pageToken = null;
+            let pageCount = 0;
 
             do {
+                pageCount++;
                 const url = new URL('https://photoslibrary.googleapis.com/v1/albums');
                 url.searchParams.set('pageSize', '50');
                 if (pageToken) url.searchParams.set('pageToken', pageToken);
+
+                console.log(`📄 Fetching page ${pageCount}: ${url.toString()}`);
+                console.log('🔐 Authorization header:', `Bearer ${token.substring(0, 20)}...`);
 
                 const response = await fetch(url, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
+                console.log(`📬 Response status: ${response.status} ${response.statusText}`);
+
                 if (!response.ok) {
-                    throw new Error(`Albums fetch failed: ${response.status}`);
+                    const errorText = await response.text();
+                    console.error('❌ Albums fetch error response:', errorText);
+                    throw new Error(`Albums fetch failed: ${response.status} - ${errorText}`);
                 }
 
                 const data = await response.json();
+                console.log('📊 Albums page data:', {
+                    albumsInPage: data.albums ? data.albums.length : 0,
+                    hasNextPage: !!data.nextPageToken
+                });
+
                 albums.push(...(data.albums || []));
                 pageToken = data.nextPageToken;
 
             } while (pageToken);
 
+            console.log(`✅ Total albums fetched: ${albums.length}`);
             return albums;
         }
 
