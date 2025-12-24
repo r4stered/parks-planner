@@ -1,6 +1,6 @@
 [build]
 publish = "output"
-command = "pip install uv && uv sync && uv run python generate_site.py"
+command = "pip install python-dotenv folium googlemaps && python generate_site.py"
 [[redirects]]
 from = "/"
 to = "/parks_site.html"

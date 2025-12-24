@@ -15,9 +15,6 @@ wheels/
 # Generated output files
 output/
 
-# Cached drive times (user-specific)
-res/drive_times.json
-
 # Google OAuth credentials (sensitive)
 credentials.json
 token.json

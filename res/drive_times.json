@@ -1,0 +1,803 @@
+{
+    "Anderson Marsh SHP": {
+        "duration_seconds": 11800,
+        "duration_text": "3 hours 17 mins",
+        "distance_meters": 278222,
+        "distance_text": "278 km"
+    },
+    "Andrew Molera SP": {
+        "duration_seconds": 4873,
+        "duration_text": "1 hour 21 mins",
+        "distance_meters": 107194,
+        "distance_text": "107 km"
+    },
+    "Angel Island SP (day use boat dock at finger piers only)": {
+        "error": "Route not found"
+    },
+    "Annadel SP": {
+        "duration_seconds": 8704,
+        "duration_text": "2 hours 25 mins",
+        "distance_meters": 216536,
+        "distance_text": "217 km"
+    },
+    "A\u00c3\u00b1o Nuevo SP": {
+        "duration_seconds": 2451,
+        "duration_text": "41 mins",
+        "distance_meters": 38351,
+        "distance_text": "38.4 km"
+    },
+    "Antelope Valley CA Poppy Reserve (SNR)": {
+        "duration_seconds": 17367,
+        "duration_text": "4 hours 49 mins",
+        "distance_meters": 486137,
+        "distance_text": "486 km"
+    },
+    "Anza-Borrego Desert SP": {
+        "duration_seconds": 29115,
+        "duration_text": "8 hours 5 mins",
+        "distance_meters": 792165,
+        "distance_text": "792 km"
+    },
+    "Armstrong Redwoods SNR": {
+        "duration_seconds": 9843,
+        "duration_text": "2 hours 44 mins",
+        "distance_meters": 244481,
+        "distance_text": "244 km"
+    },
+    "Auburn SRA": {
+        "duration_seconds": 10720,
+        "duration_text": "2 hours 59 mins",
+        "distance_meters": 291118,
+        "distance_text": "291 km"
+    },
+    "Austin Creek SRA": {
+        "duration_seconds": 10560,
+        "duration_text": "2 hours 56 mins",
+        "distance_meters": 248211,
+        "distance_text": "248 km"
+    },
+    "Benbow Lake SRA": {
+        "duration_seconds": 16814,
+        "duration_text": "4 hours 40 mins",
+        "distance_meters": 444847,
+        "distance_text": "445 km"
+    },
+    "Benicia SRA": {
+        "duration_seconds": 6033,
+        "duration_text": "1 hour 41 mins",
+        "distance_meters": 150888,
+        "distance_text": "151 km"
+    },
+    "Bethany Reservoir SRA": {
+        "duration_seconds": 5622,
+        "duration_text": "1 hour 34 mins",
+        "distance_meters": 130588,
+        "distance_text": "131 km"
+    },
+    "Bidwell-Sacramento River SP": {
+        "duration_seconds": 13257,
+        "duration_text": "3 hours 41 mins",
+        "distance_meters": 369830,
+        "distance_text": "370 km"
+    },
+    "Big Basin Redwoods SP": {
+        "duration_seconds": 3428,
+        "duration_text": "57 mins",
+        "distance_meters": 41876,
+        "distance_text": "41.9 km"
+    },
+    "Bolsa Chica SB": {
+        "duration_seconds": 21786,
+        "duration_text": "6 hours 3 mins",
+        "distance_meters": 601851,
+        "distance_text": "602 km"
+    },
+    "Border Field SP": {
+        "duration_seconds": 27711,
+        "duration_text": "7 hours 42 mins",
+        "distance_meters": 778051,
+        "distance_text": "778 km"
+    },
+    "Bothe-Napa Valley SP": {
+        "duration_seconds": 9080,
+        "duration_text": "2 hours 31 mins",
+        "distance_meters": 221947,
+        "distance_text": "222 km"
+    },
+    "Brannan Island SRA": {
+        "duration_seconds": 6772,
+        "duration_text": "1 hour 53 mins",
+        "distance_meters": 175942,
+        "distance_text": "176 km"
+    },
+    "Butano SP": {
+        "duration_seconds": 3013,
+        "duration_text": "50 mins",
+        "distance_meters": 50192,
+        "distance_text": "50.2 km"
+    },
+    "Calaveras Big Trees SP": {
+        "duration_seconds": 11642,
+        "duration_text": "3 hours 14 mins",
+        "distance_meters": 282570,
+        "distance_text": "283 km"
+    },
+    "California Citrus SHP": {
+        "duration_seconds": 22516,
+        "duration_text": "6 hours 15 mins",
+        "distance_meters": 632266,
+        "distance_text": "632 km"
+    },
+    "Cardiff SB": {
+        "duration_seconds": 25089,
+        "duration_text": "6 hours 58 mins",
+        "distance_meters": 712967,
+        "distance_text": "713 km"
+    },
+    "Carlsbad SB": {
+        "duration_seconds": 24508,
+        "duration_text": "6 hours 48 mins",
+        "distance_meters": 697751,
+        "distance_text": "698 km"
+    },
+    "Carpinteria SB": {
+        "duration_seconds": 15458,
+        "duration_text": "4 hours 18 mins",
+        "distance_meters": 429309,
+        "distance_text": "429 km"
+    },
+    "Castle Crags SP": {
+        "duration_seconds": 17927,
+        "duration_text": "4 hours 59 mins",
+        "distance_meters": 517153,
+        "distance_text": "517 km"
+    },
+    "Castle Rock SP": {
+        "duration_seconds": 3257,
+        "duration_text": "54 mins",
+        "distance_meters": 56717,
+        "distance_text": "56.7 km"
+    },
+    "Caswell Memorial SP": {
+        "duration_seconds": 7092,
+        "duration_text": "1 hour 58 mins",
+        "distance_meters": 166336,
+        "distance_text": "166 km"
+    },
+    "China Camp SP": {
+        "duration_seconds": 6442,
+        "duration_text": "1 hour 47 mins",
+        "distance_meters": 156879,
+        "distance_text": "157 km"
+    },
+    "Chino Hills SP": {
+        "duration_seconds": 21327,
+        "duration_text": "5 hours 55 mins",
+        "distance_meters": 601565,
+        "distance_text": "602 km"
+    },
+    "Clear Lake SP": {
+        "duration_seconds": 12808,
+        "duration_text": "3 hours 33 mins",
+        "distance_meters": 319081,
+        "distance_text": "319 km"
+    },
+    "Colonel Allensworth SHP": {
+        "duration_seconds": 12631,
+        "duration_text": "3 hours 31 mins",
+        "distance_meters": 337553,
+        "distance_text": "338 km"
+    },
+    "Colusa-Sacramento River SRA": {
+        "duration_seconds": 10542,
+        "duration_text": "2 hours 56 mins",
+        "distance_meters": 289591,
+        "distance_text": "290 km"
+    },
+    "Crystal Cove SP": {
+        "duration_seconds": 22725,
+        "duration_text": "6 hours 19 mins",
+        "distance_meters": 631819,
+        "distance_text": "632 km"
+    },
+    "Cuyamaca Rancho SP": {
+        "duration_seconds": 28408,
+        "duration_text": "7 hours 53 mins",
+        "distance_meters": 810597,
+        "distance_text": "811 km"
+    },
+    "D. L. Bliss SP": {
+        "duration_seconds": 16154,
+        "duration_text": "4 hours 29 mins",
+        "distance_meters": 412037,
+        "distance_text": "412 km"
+    },
+    "Del Norte Coast Redwoods SP": {
+        "duration_seconds": 25685,
+        "duration_text": "7 hours 8 mins",
+        "distance_meters": 676471,
+        "distance_text": "676 km"
+    },
+    "Doheny SB": {
+        "duration_seconds": 23114,
+        "duration_text": "6 hours 25 mins",
+        "distance_meters": 650469,
+        "distance_text": "650 km"
+    },
+    "Donner Memorial SP": {
+        "duration_seconds": 14652,
+        "duration_text": "4 hours 4 mins",
+        "distance_meters": 394371,
+        "distance_text": "394 km"
+    },
+    "Ed Z'Berg Sugar Pine Point SP": {
+        "duration_seconds": 16180,
+        "duration_text": "4 hours 30 mins",
+        "distance_meters": 430466,
+        "distance_text": "430 km"
+    },
+    "El Capitan SB": {
+        "duration_seconds": 13864,
+        "duration_text": "3 hours 51 mins",
+        "distance_meters": 398477,
+        "distance_text": "398 km"
+    },
+    "Emerald Bay SP": {
+        "duration_seconds": 15909,
+        "duration_text": "4 hours 25 mins",
+        "distance_meters": 408087,
+        "distance_text": "408 km"
+    },
+    "Emma Wood SB": {
+        "duration_seconds": 16270,
+        "duration_text": "4 hours 31 mins",
+        "distance_meters": 453446,
+        "distance_text": "453 km"
+    },
+    "Folsom Lake SRA": {
+        "duration_seconds": 12709,
+        "duration_text": "3 hours 32 mins",
+        "distance_meters": 319028,
+        "distance_text": "319 km"
+    },
+    "Folsom Powerhouse SHP": {
+        "duration_seconds": 10220,
+        "duration_text": "2 hours 50 mins",
+        "distance_meters": 271269,
+        "distance_text": "271 km"
+    },
+    "Fort Ross SHP": {
+        "duration_seconds": 11663,
+        "duration_text": "3 hours 14 mins",
+        "distance_meters": 262057,
+        "distance_text": "262 km"
+    },
+    "Fremont Peak SP": {
+        "duration_seconds": 3965,
+        "duration_text": "1 hour 6 mins",
+        "distance_meters": 71542,
+        "distance_text": "71.5 km"
+    },
+    "Gaviota SP": {
+        "duration_seconds": 13257,
+        "duration_text": "3 hours 41 mins",
+        "distance_meters": 379440,
+        "distance_text": "379 km"
+    },
+    "George J. Hatfield SRA": {
+        "duration_seconds": 6826,
+        "duration_text": "1 hour 54 mins",
+        "distance_meters": 157295,
+        "distance_text": "157 km"
+    },
+    "Grizzly Creek Redwoods SP": {
+        "duration_seconds": 20899,
+        "duration_text": "5 hours 48 mins",
+        "distance_meters": 550013,
+        "distance_text": "550 km"
+    },
+    "Grover Hot Springs SP": {
+        "duration_seconds": 16161,
+        "duration_text": "4 hours 29 mins",
+        "distance_meters": 374523,
+        "distance_text": "375 km"
+    },
+    "Half Moon Bay SB": {
+        "duration_seconds": 4321,
+        "duration_text": "1 hour 12 mins",
+        "distance_meters": 83331,
+        "distance_text": "83.3 km"
+    },
+    "Hendy Woods SP": {
+        "duration_seconds": 13124,
+        "duration_text": "3 hours 39 mins",
+        "distance_meters": 323115,
+        "distance_text": "323 km"
+    },
+    "Henry Cowell Redwoods SP": {
+        "duration_seconds": 1312,
+        "duration_text": "22 mins",
+        "distance_meters": 15315,
+        "distance_text": "15.3 km"
+    },
+    "Henry W. Coe SP": {
+        "duration_seconds": 4825,
+        "duration_text": "1 hour 20 mins",
+        "distance_meters": 92536,
+        "distance_text": "92.5 km"
+    },
+    "Humboldt Redwoods SP": {
+        "duration_seconds": 20595,
+        "duration_text": "5 hours 43 mins",
+        "distance_meters": 507691,
+        "distance_text": "508 km"
+    },
+    "Huntington SB": {
+        "duration_seconds": 11364,
+        "duration_text": "3 hours 9 mins",
+        "distance_meters": 287333,
+        "distance_text": "287 km"
+    },
+    "Indian Grinding Rock SHP": {
+        "duration_seconds": 10672,
+        "duration_text": "2 hours 58 mins",
+        "distance_meters": 253102,
+        "distance_text": "253 km"
+    },
+    "Jack London SHP": {
+        "duration_seconds": 8483,
+        "duration_text": "2 hours 21 mins",
+        "distance_meters": 202411,
+        "distance_text": "202 km"
+    },
+    "Jedediah Smith Redwoods SP": {
+        "duration_seconds": 27351,
+        "duration_text": "7 hours 36 mins",
+        "distance_meters": 706176,
+        "distance_text": "706 km"
+    },
+    "Julia Pfeiffer Burns SP": {
+        "duration_seconds": 6268,
+        "duration_text": "1 hour 44 mins",
+        "distance_meters": 130833,
+        "distance_text": "131 km"
+    },
+    "Kenneth Hahn (Baldwin Hills Overlook only)": {
+        "duration_seconds": 19694,
+        "duration_text": "5 hours 28 mins",
+        "distance_meters": 548876,
+        "distance_text": "549 km"
+    },
+    "Kings Beach SRA": {
+        "duration_seconds": 15522,
+        "duration_text": "4 hours 19 mins",
+        "distance_meters": 417653,
+        "distance_text": "418 km"
+    },
+    "La Purisima Mission SHP": {
+        "duration_seconds": 12757,
+        "duration_text": "3 hours 33 mins",
+        "distance_meters": 355815,
+        "distance_text": "356 km"
+    },
+    "Lake Oroville SRA": {
+        "duration_seconds": 13277,
+        "duration_text": "3 hours 41 mins",
+        "distance_meters": 349968,
+        "distance_text": "350 km"
+    },
+    "Lake Perris SRA": {
+        "duration_seconds": 23730,
+        "duration_text": "6 hours 36 mins",
+        "distance_meters": 656421,
+        "distance_text": "656 km"
+    },
+    "Leo Carrillo SP": {
+        "duration_seconds": 18448,
+        "duration_text": "5 hours 7 mins",
+        "distance_meters": 505037,
+        "distance_text": "505 km"
+    },
+    "MacKerricher SP": {
+        "duration_seconds": 16126,
+        "duration_text": "4 hours 29 mins",
+        "distance_meters": 400947,
+        "distance_text": "401 km"
+    },
+    "Malakoff Diggins SHP": {
+        "duration_seconds": 14982,
+        "duration_text": "4 hours 10 mins",
+        "distance_meters": 375199,
+        "distance_text": "375 km"
+    },
+    "Malibu Creek SP": {
+        "duration_seconds": 19435,
+        "duration_text": "5 hours 24 mins",
+        "distance_meters": 520905,
+        "distance_text": "521 km"
+    },
+    "Malibu Lagoon SB": {
+        "duration_seconds": 19356,
+        "duration_text": "5 hours 23 mins",
+        "distance_meters": 530301,
+        "distance_text": "530 km"
+    },
+    "Manresa SB": {
+        "duration_seconds": 1069,
+        "duration_text": "18 mins",
+        "distance_meters": 18522,
+        "distance_text": "18.5 km"
+    },
+    "Marshall Gold Discovery SHP": {
+        "duration_seconds": 11537,
+        "duration_text": "3 hours 12 mins",
+        "distance_meters": 307554,
+        "distance_text": "308 km"
+    },
+    "McArthur-Burney Falls Memorial SP": {
+        "duration_seconds": 19362,
+        "duration_text": "5 hours 23 mins",
+        "distance_meters": 543437,
+        "distance_text": "543 km"
+    },
+    "McConnell SRA": {
+        "duration_seconds": 8393,
+        "duration_text": "2 hours 20 mins",
+        "distance_meters": 191870,
+        "distance_text": "192 km"
+    },
+    "McGrath SB": {
+        "duration_seconds": 14950,
+        "duration_text": "4 hours 9 mins",
+        "distance_meters": 412134,
+        "distance_text": "412 km"
+    },
+    "Millerton Lake SRA": {
+        "duration_seconds": 10260,
+        "duration_text": "2 hours 51 mins",
+        "distance_meters": 247763,
+        "distance_text": "248 km"
+    },
+    "Mono Lake Tufa SNR": {
+        "duration_seconds": 21795,
+        "duration_text": "6 hours 3 mins",
+        "distance_meters": 519549,
+        "distance_text": "520 km"
+    },
+    "Morro Bay SP": {
+        "duration_seconds": 9920,
+        "duration_text": "2 hours 45 mins",
+        "distance_meters": 263256,
+        "distance_text": "263 km"
+    },
+    "Mount Diablo SP": {
+        "duration_seconds": 7035,
+        "duration_text": "1 hour 57 mins",
+        "distance_meters": 133637,
+        "distance_text": "134 km"
+    },
+    "Mount San Jacinto SP": {
+        "duration_seconds": 25991,
+        "duration_text": "7 hours 13 mins",
+        "distance_meters": 719235,
+        "distance_text": "719 km"
+    },
+    "Mount Tamalpais SP": {
+        "duration_seconds": 7431,
+        "duration_text": "2 hours 4 mins",
+        "distance_meters": 149768,
+        "distance_text": "150 km"
+    },
+    "Natural Bridges SB": {
+        "duration_seconds": 15049,
+        "duration_text": "4 hours 11 mins",
+        "distance_meters": 411534,
+        "distance_text": "412 km"
+    },
+    "New Brighton SB": {
+        "duration_seconds": 712,
+        "duration_text": "12 mins",
+        "distance_meters": 8510,
+        "distance_text": "8.5 km"
+    },
+    "Olompali SHP": {
+        "duration_seconds": 6716,
+        "duration_text": "1 hour 52 mins",
+        "distance_meters": 170309,
+        "distance_text": "170 km"
+    },
+    "Pacheco SP": {
+        "duration_seconds": 4359,
+        "duration_text": "1 hour 13 mins",
+        "distance_meters": 99377,
+        "distance_text": "99.4 km"
+    },
+    "Palomar Mountain SP": {
+        "duration_seconds": 27633,
+        "duration_text": "7 hours 41 mins",
+        "distance_meters": 737351,
+        "distance_text": "737 km"
+    },
+    "Patrick\u00e2\u20ac\u2122s Point SP": {
+        "duration_seconds": 11364,
+        "duration_text": "3 hours 9 mins",
+        "distance_meters": 287333,
+        "distance_text": "287 km"
+    },
+    "Pescadero SB": {
+        "duration_seconds": 14833,
+        "duration_text": "4 hours 7 mins",
+        "distance_meters": 407699,
+        "distance_text": "408 km"
+    },
+    "Pfeiffer Big Sur SP": {
+        "duration_seconds": 10488,
+        "duration_text": "2 hours 55 mins",
+        "distance_meters": 206238,
+        "distance_text": "206 km"
+    },
+    "Picacho SRA": {
+        "duration_seconds": 37443,
+        "duration_text": "10 hours 24 mins",
+        "distance_meters": 1012115,
+        "distance_text": "1,012 km"
+    },
+    "Pismo SB": {
+        "duration_seconds": 9988,
+        "duration_text": "2 hours 46 mins",
+        "distance_meters": 280306,
+        "distance_text": "280 km"
+    },
+    "Point Lobos SNR": {
+        "duration_seconds": 3453,
+        "duration_text": "58 mins",
+        "distance_meters": 76944,
+        "distance_text": "76.9 km"
+    },
+    "Point Mugu SP": {
+        "duration_seconds": 19388,
+        "duration_text": "5 hours 23 mins",
+        "distance_meters": 503679,
+        "distance_text": "504 km"
+    },
+    "Pomponio SB": {
+        "duration_seconds": 15049,
+        "duration_text": "4 hours 11 mins",
+        "distance_meters": 411534,
+        "distance_text": "412 km"
+    },
+    "Portola Redwoods SP": {
+        "duration_seconds": 4559,
+        "duration_text": "1 hour 16 mins",
+        "distance_meters": 66713,
+        "distance_text": "66.7 km"
+    },
+    "Prairie Creek Redwoods SP": {
+        "duration_seconds": 24432,
+        "duration_text": "6 hours 47 mins",
+        "distance_meters": 639069,
+        "distance_text": "639 km"
+    },
+    "Red Rock Canyon SP": {
+        "duration_seconds": 19092,
+        "duration_text": "5 hours 18 mins",
+        "distance_meters": 517695,
+        "distance_text": "518 km"
+    },
+    "Refugio SB": {
+        "duration_seconds": 13916,
+        "duration_text": "3 hours 52 mins",
+        "distance_meters": 395500,
+        "distance_text": "396 km"
+    },
+    "Richardson Grove SP": {
+        "duration_seconds": 16375,
+        "duration_text": "4 hours 33 mins",
+        "distance_meters": 436338,
+        "distance_text": "436 km"
+    },
+    "Robert H. Meyer Memorial SB": {
+        "duration_seconds": 18510,
+        "duration_text": "5 hours 9 mins",
+        "distance_meters": 508312,
+        "distance_text": "508 km"
+    },
+    "Russian Gulch SP": {
+        "duration_seconds": 15422,
+        "duration_text": "4 hours 17 mins",
+        "distance_meters": 371717,
+        "distance_text": "372 km"
+    },
+    "Saddleback Butte SP": {
+        "duration_seconds": 19461,
+        "duration_text": "5 hours 24 mins",
+        "distance_meters": 544468,
+        "distance_text": "544 km"
+    },
+    "Salt Point SP": {
+        "duration_seconds": 12403,
+        "duration_text": "3 hours 27 mins",
+        "distance_meters": 274320,
+        "distance_text": "274 km"
+    },
+    "Salton Sea SRA": {
+        "duration_seconds": 27624,
+        "duration_text": "7 hours 40 mins",
+        "distance_meters": 789290,
+        "distance_text": "789 km"
+    },
+    "Samuel P. Taylor SP": {
+        "duration_seconds": 7715,
+        "duration_text": "2 hours 9 mins",
+        "distance_meters": 169890,
+        "distance_text": "170 km"
+    },
+    "San Buenaventura SB": {
+        "duration_seconds": 16865,
+        "duration_text": "4 hours 41 mins",
+        "distance_meters": 467535,
+        "distance_text": "468 km"
+    },
+    "San Clemente SB": {
+        "duration_seconds": 15030,
+        "duration_text": "4 hours 11 mins",
+        "distance_meters": 413329,
+        "distance_text": "413 km"
+    },
+    "San Elijo SB": {
+        "duration_seconds": 25144,
+        "duration_text": "6 hours 59 mins",
+        "distance_meters": 711644,
+        "distance_text": "712 km"
+    },
+    "San Gregorio SB": {
+        "duration_seconds": 3192,
+        "duration_text": "53 mins",
+        "distance_meters": 63158,
+        "distance_text": "63.2 km"
+    },
+    "San Luis Reservoir SRA": {
+        "duration_seconds": 4806,
+        "duration_text": "1 hour 20 mins",
+        "distance_meters": 112526,
+        "distance_text": "113 km"
+    },
+    "San Onofre SB": {
+        "duration_seconds": 23560,
+        "duration_text": "6 hours 33 mins",
+        "distance_meters": 663882,
+        "distance_text": "664 km"
+    },
+    "Seacliff SB": {
+        "duration_seconds": 15073,
+        "duration_text": "4 hours 11 mins",
+        "distance_meters": 411951,
+        "distance_text": "412 km"
+    },
+    "Silver Strand SB": {
+        "duration_seconds": 17396,
+        "duration_text": "4 hours 50 mins",
+        "distance_meters": 472568,
+        "distance_text": "473 km"
+    },
+    "Silverwood Lake SRA": {
+        "duration_seconds": 22737,
+        "duration_text": "6 hours 19 mins",
+        "distance_meters": 624680,
+        "distance_text": "625 km"
+    },
+    "Sinkyone Wilderness SP": {
+        "duration_seconds": 21236,
+        "duration_text": "5 hours 54 mins",
+        "distance_meters": 497448,
+        "distance_text": "497 km"
+    },
+    "Sonoma Coast SP": {
+        "duration_seconds": 9961,
+        "duration_text": "2 hours 46 mins",
+        "distance_meters": 239084,
+        "distance_text": "239 km"
+    },
+    "South Carlsbad SB": {
+        "duration_seconds": 24848,
+        "duration_text": "6 hours 54 mins",
+        "distance_meters": 702247,
+        "distance_text": "702 km"
+    },
+    "South Yuba River SP": {
+        "duration_seconds": 12984,
+        "duration_text": "3 hours 36 mins",
+        "distance_meters": 340674,
+        "distance_text": "341 km"
+    },
+    "Standish Hickey SRA": {
+        "duration_seconds": 15450,
+        "duration_text": "4 hours 18 mins",
+        "distance_meters": 414925,
+        "distance_text": "415 km"
+    },
+    "Sugarloaf Ridge SP": {
+        "duration_seconds": 9140,
+        "duration_text": "2 hours 32 mins",
+        "distance_meters": 214785,
+        "distance_text": "215 km"
+    },
+    "Sunset SB": {
+        "duration_seconds": 15049,
+        "duration_text": "4 hours 11 mins",
+        "distance_meters": 411534,
+        "distance_text": "412 km"
+    },
+    "The Forest of Nisene Marks SP": {
+        "duration_seconds": 1459,
+        "duration_text": "24 mins",
+        "distance_meters": 19033,
+        "distance_text": "19.0 km"
+    },
+    "Tomales Bay SP": {
+        "duration_seconds": 8981,
+        "duration_text": "2 hours 30 mins",
+        "distance_meters": 201160,
+        "distance_text": "201 km"
+    },
+    "Topanga SP": {
+        "duration_seconds": 19835,
+        "duration_text": "5 hours 31 mins",
+        "distance_meters": 536764,
+        "distance_text": "537 km"
+    },
+    "Torrey Pines SB": {
+        "duration_seconds": 25333,
+        "duration_text": "7 hours 2 mins",
+        "distance_meters": 722646,
+        "distance_text": "723 km"
+    },
+    "Torrey Pines SNR": {
+        "duration_seconds": 25835,
+        "duration_text": "7 hours 11 mins",
+        "distance_meters": 725198,
+        "distance_text": "725 km"
+    },
+    "Tule Elk SNR": {
+        "duration_seconds": 13018,
+        "duration_text": "3 hours 37 mins",
+        "distance_meters": 362149,
+        "distance_text": "362 km"
+    },
+    "Turlock Lake SRA": {
+        "duration_seconds": 9592,
+        "duration_text": "2 hours 40 mins",
+        "distance_meters": 214331,
+        "distance_text": "214 km"
+    },
+    "Van Damme SP": {
+        "duration_seconds": 15489,
+        "duration_text": "4 hours 18 mins",
+        "distance_meters": 366988,
+        "distance_text": "367 km"
+    },
+    "Wilder Ranch SP": {
+        "duration_seconds": 1090,
+        "duration_text": "18 mins",
+        "distance_meters": 9424,
+        "distance_text": "9.4 km"
+    },
+    "Will Rogers SHP": {
+        "duration_seconds": 19657,
+        "duration_text": "5 hours 28 mins",
+        "distance_meters": 543410,
+        "distance_text": "543 km"
+    },
+    "William B. Ide Adobe SHP": {
+        "duration_seconds": 13747,
+        "duration_text": "3 hours 49 mins",
+        "distance_meters": 397189,
+        "distance_text": "397 km"
+    },
+    "Woodson Bridge SRA": {
+        "duration_seconds": 13090,
+        "duration_text": "3 hours 38 mins",
+        "distance_meters": 374071,
+        "distance_text": "374 km"
+    }
+}
