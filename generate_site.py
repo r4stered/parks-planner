@@ -15,7 +15,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).parent
 PARKS_FILE = BASE_DIR / "res" / "parks.json"
 DRIVE_TIMES_FILE = BASE_DIR / "res" / "drive_times.json"
-TEMPLATE_FILE = BASE_DIR / "output" / "index.html"
+TEMPLATE_FILE = BASE_DIR / "templates" / "index.html"
 OUTPUT_FILE = BASE_DIR / "output" / "parks_site.html"
 
 # Configuration - Update these with your actual values

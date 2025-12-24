@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California State Parks Trip Planner</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #3d6b4f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .login-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .login-card h1 {
+            color: #1a472a;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .login-card .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .login-card .park-icon {
+            font-size: 60px;
+            color: #2d5a3d;
+            margin-bottom: 20px;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .google-btn:hover {
+            border-color: #4285f4;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .login-card .note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* App Container - hidden until logged in */
+        .app-container {
+            display: none;
+        }
+
+        .app-container.visible {
+            display: block;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .custom-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            color: white;
+        }
+
+        .marker-green {
+            background-color: #28a745;
+        }
+
+        .marker-orange {
+            background-color: #fd7e14;
+        }
+
+        .marker-red {
+            background-color: #dc3545;
+        }
+
+        .marker-gray {
+            background-color: #6c757d;
+        }
+
+        .marker-blue {
+            background-color: #007bff;
+        }
+
+        .marker-visited {
+            border-color: #ffd700 !important;
+            border-width: 4px !important;
+        }
+
+        .marker-visited::after {
+            content: '\2713';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffd700;
+            color: #333;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Popup Styles */
+        .park-popup {
+            min-width: 280px;
+            max-width: 350px;
+        }
+
+        .park-popup h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .park-popup .drive-info {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .park-popup .visit-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .park-popup .visit-toggle:hover {
+            background: #e9ecef;
+        }
+
+        .park-popup .visit-toggle input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .park-popup .visit-toggle label {
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .park-popup .visit-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .park-popup .photo-section {
+            margin-top: 15px;
+        }
+
+        .park-popup .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .park-popup .photo-thumb {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .park-popup .photo-thumb:hover {
+            transform: scale(1.05);
+        }
+
+        .park-popup .view-all-photos {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .park-popup .view-all-photos:hover {
+            text-decoration: underline;
+        }
+
+        .park-popup .no-photos {
+            color: #888;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .park-popup .syncing {
+            color: #007bff;
+            font-size: 13px;
+        }
+
+        /* Photo Gallery Modal */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .gallery-modal.active {
+            display: flex;
+        }
+
+        .gallery-modal .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        .gallery-modal .gallery-title {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .gallery-modal .gallery-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 90vw;
+            max-height: 80vh;
+        }
+
+        .gallery-modal .gallery-nav {
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+        }
+
+        .gallery-modal .gallery-nav:hover {
+            color: #ccc;
+        }
+
+        .gallery-modal .gallery-image {
+            max-width: 80vw;
+            max-height: 75vh;
+            object-fit: contain;
+        }
+
+        .gallery-modal .gallery-counter {
+            color: white;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .gallery-modal .gallery-thumbnails {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+            max-width: 90vw;
+            padding: 10px 0;
+        }
+
+        .gallery-modal .gallery-thumbnails img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .gallery-modal .gallery-thumbnails img:hover,
+        .gallery-modal .gallery-thumbnails img.active {
+            opacity: 1;
+        }
+
+        /* Stats Panel */
+        .stats-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .stats-panel h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .stats-panel .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .stats-panel .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .stats-panel .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #ffd700);
+            transition: width 0.3s;
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            left: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .legend h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* User Panel */
+        .user-panel {
+            position: absolute;
+            top: 10px;
+            left: 60px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-panel img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .user-panel .user-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .user-panel .logout-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .user-panel .logout-btn:hover {
+            background: #fee;
+        }
+
+        .user-panel .sync-status {
+            font-size: 12px;
+            color: #28a745;
+        }
+
+        .user-panel .sync-status.syncing {
+            color: #007bff;
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            position: absolute;
+            top: 70px;
+            left: 60px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .filter-panel label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .filter-panel input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e9ecef;
+            border-top-color: #28a745;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-overlay p {
+            margin-top: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="park-icon"><i class="fas fa-tree"></i></div>
+            <h1>CA State Parks</h1>
+            <p class="subtitle">Track your adventures across California</p>
+            <button class="google-btn" onclick="signIn()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                Sign in with Google
+            </button>
+            <p class="note">Sign in to track visited parks and sync photos</p>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p id="loadingText">Loading your parks...</p>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <div id="map"></div>
+
+        <!-- User Panel -->
+        <div class="user-panel" id="userPanel">
+            <img id="userPhoto" src="" alt="User">
+            <span class="user-name" id="userName"></span>
+            <span class="sync-status" id="syncStatus"></span>
+            <button class="logout-btn" onclick="signOut()">Sign out</button>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+            <label>
+                <input type="checkbox" id="filterVisited" onchange="updateFilters()">
+                Show only visited
+            </label>
+            <label>
+                <input type="checkbox" id="filterUnvisited" onchange="updateFilters()">
+                Show only unvisited
+            </label>
+            <label>
+                <input type="checkbox" id="filterDayTrip" checked onchange="updateFilters()">
+                Day trips (&lt; 3hr)
+            </label>
+            <label>
+                <input type="checkbox" id="filterWeekend" checked onchange="updateFilters()">
+                Weekend (3-5hr)
+            </label>
+            <label>
+                <input type="checkbox" id="filterMultiDay" checked onchange="updateFilters()">
+                Multi-day (&gt; 5hr)
+            </label>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+            <h4>Progress</h4>
+            <div class="stat-row">
+                <span>Visited:</span>
+                <span id="visitedCount">0</span>
+            </div>
+            <div class="stat-row">
+                <span>Remaining:</span>
+                <span id="remainingCount">0</span>
+            </div>
+            <div class="stat-row">
+                <span>Total:</span>
+                <span id="totalCount">0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h4>Drive Time</h4>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #28a745;"></div>
+                <span>&lt; 2 hours</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #fd7e14;"></div>
+                <span>2-4 hours</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #dc3545;"></div>
+                <span>&gt; 4 hours</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffd700; border-color: #ffd700;"></div>
+                <span>Visited</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal">
+        <span class="close-btn" onclick="closeGallery()">&times;</span>
+        <h2 class="gallery-title" id="galleryTitle"></h2>
+        <div class="gallery-container">
+            <span class="gallery-nav" onclick="prevImage()">&#10094;</span>
+            <img class="gallery-image" id="galleryImage" src="" alt="Park photo">
+            <span class="gallery-nav" onclick="nextImage()">&#10095;</span>
+        </div>
+        <div class="gallery-counter" id="galleryCounter"></div>
+        <div class="gallery-thumbnails" id="galleryThumbnails"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <!-- Google API for Photos -->
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <script>
+        // =====================================================
+        // CONFIGURATION - Update these values for your setup
+        // =====================================================
+
+        const CONFIG = {
+            firebase: {
+                apiKey: "YOUR_FIREBASE_API_KEY",
+                authDomain: "YOUR_PROJECT.firebaseapp.com",
+                databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+                projectId: "YOUR_PROJECT",
+                storageBucket: "YOUR_PROJECT.appspot.com",
+                messagingSenderId: "YOUR_SENDER_ID",
+                appId: "YOUR_APP_ID"
+            },
+
+            // Home coordinates
+            home: {
+                lat: 36.9741,
+                lng: -122.0308,
+                address: "Santa Cruz, CA"
+            }
+        };
+
+        // =====================================================
+        // PARK DATA - Generated from parks.json
+        // =====================================================
+
+        const PARKS_DATA = PARKS_PLACEHOLDER;
+
+        const DRIVE_TIMES = DRIVE_TIMES_PLACEHOLDER;
+
+        // =====================================================
+        // APPLICATION STATE
+        // =====================================================
+
+        let map;
+        let markers = {};
+        let currentUser = null;
+        let googleAccessToken = null;
+        let visitedParks = {};
+        let parkPhotos = {};
+        let galleryImages = [];
+        let galleryIndex = 0;
+        let isSyncing = false;
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+
+        function init() {
+            initFirebase();
+        }
+
+        function initMap() {
+            if (map) return; // Already initialized
+
+            map = L.map('map').setView([37.5, -119.5], 6);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add home marker
+            const homeIcon = L.divIcon({
+                className: 'custom-marker marker-blue',
+                html: '<i class="fas fa-home"></i>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+
+            L.marker([CONFIG.home.lat, CONFIG.home.lng], { icon: homeIcon })
+                .addTo(map)
+                .bindPopup(`<b>Home</b><br>${CONFIG.home.address}`);
+        }
+
+        function initFirebase() {
+            firebase.initializeApp(CONFIG.firebase);
+
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    currentUser = user;
+                    showLoading('Loading your parks...');
+
+                    // Get Google access token for Photos API
+                    const credential = firebase.auth.GoogleAuthProvider.credentialFromResult;
+
+                    // Show app
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('appContainer').classList.add('visible');
+
+                    // Update user panel
+                    document.getElementById('userPhoto').src = user.photoURL || '';
+                    document.getElementById('userName').textContent = user.displayName || 'User';
+
+                    // Initialize map
+                    initMap();
+
+                    // Load data from Firebase
+                    await loadVisitedParks();
+                    await loadParkPhotos();
+
+                    // Render parks
+                    loadParks();
+                    updateStats();
+
+                    hideLoading();
+
+                    // Auto-sync photos in background
+                    syncPhotosFromGoogle();
+                } else {
+                    currentUser = null;
+                    googleAccessToken = null;
+                    document.getElementById('loginScreen').classList.remove('hidden');
+                    document.getElementById('appContainer').classList.remove('visible');
+                }
+            });
+        }
+
+        // =====================================================
+        // AUTHENTICATION
+        // =====================================================
+
+        function signIn() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            // Request Google Photos read access
+            provider.addScope('https://www.googleapis.com/auth/photoslibrary.readonly');
+
+            firebase.auth().signInWithPopup(provider).then((result) => {
+                // Get Google access token for Photos API
+                googleAccessToken = result.credential.accessToken;
+                localStorage.setItem('googleAccessToken', googleAccessToken);
+            }).catch((error) => {
+                console.error('Sign in error:', error);
+                alert('Sign in failed: ' + error.message);
+            });
+        }
+
+        function signOut() {
+            firebase.auth().signOut();
+            localStorage.removeItem('googleAccessToken');
+            visitedParks = {};
+            parkPhotos = {};
+        }
+
+        // =====================================================
+        // LOADING
+        // =====================================================
+
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+
+        // =====================================================
+        // DATA LOADING
+        // =====================================================
+
+        function loadVisitedParks() {
+            return new Promise((resolve) => {
+                if (!currentUser) { resolve(); return; }
+
+                const ref = firebase.database().ref(`users/${currentUser.uid}/visited`);
+                ref.on('value', (snapshot) => {
+                    visitedParks = snapshot.val() || {};
+                    loadParks();
+                    updateStats();
+                    resolve();
+                });
+            });
+        }
+
+        function loadParkPhotos() {
+            return new Promise((resolve) => {
+                if (!currentUser) { resolve(); return; }
+
+                const ref = firebase.database().ref(`users/${currentUser.uid}/photos`);
+                ref.on('value', (snapshot) => {
+                    parkPhotos = snapshot.val() || {};
+                    resolve();
+                });
+            });
+        }
+
+        function loadParks() {
+            if (!map) return;
+
+            // Clear existing markers
+            Object.values(markers).forEach(marker => map.removeLayer(marker));
+            markers = {};
+
+            // Add park markers
+            Object.entries(PARKS_DATA).forEach(([name, coords]) => {
+                if (!coords.lat || !coords.lng) return;
+
+                const driveInfo = DRIVE_TIMES[name] || {};
+                const isVisited = visitedParks[sanitizeKey(name)]?.visited || false;
+
+                // Apply filters
+                if (!shouldShowPark(name, driveInfo, isVisited)) return;
+
+                const color = getMarkerColor(driveInfo.duration_seconds);
+                const parkType = getParkType(name);
+                const icon = getParkIcon(parkType);
+
+                const markerIcon = L.divIcon({
+                    className: `custom-marker marker-${color} ${isVisited ? 'marker-visited' : ''}`,
+                    html: `<i class="fas fa-${icon}"></i>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+
+                const marker = L.marker([coords.lat, coords.lng], { icon: markerIcon })
+                    .addTo(map);
+
+                // Store park data on the marker for later access
+                marker.parkData = { name, coords, driveInfo };
+
+                // Use a function that reads current visited state
+                marker.on('click', () => {
+                    const currentIsVisited = visitedParks[sanitizeKey(name)]?.visited || false;
+                    showParkPopup(name, coords, driveInfo, currentIsVisited);
+                });
+
+                markers[name] = marker;
+            });
+        }
+
+        // =====================================================
+        // GOOGLE PHOTOS SYNC
+        // =====================================================
+
+        async function syncPhotosFromGoogle() {
+            // Get token from storage or current session
+            let token = googleAccessToken || localStorage.getItem('googleAccessToken');
+
+            if (!token || !currentUser) {
+                console.log('No access token available for photo sync');
+                return;
+            }
+
+            if (isSyncing) return;
+            isSyncing = true;
+
+            updateSyncStatus('Syncing photos...', true);
+
+            try {
+                // Fetch all albums
+                const albums = await fetchGooglePhotosAlbums(token);
+                console.log(`Found ${albums.length} albums`);
+
+                // Match albums to parks
+                const parkNames = Object.keys(PARKS_DATA);
+                let matchedCount = 0;
+
+                for (const album of albums) {
+                    const matchedPark = findMatchingPark(album.title, parkNames);
+
+                    if (matchedPark) {
+                        matchedCount++;
+                        console.log(`Matched album "${album.title}" to park "${matchedPark}"`);
+
+                        // Fetch photos from this album
+                        const photos = await fetchAlbumPhotos(token, album.id);
+
+                        if (photos.length > 0) {
+                            // Save to Firebase
+                            const key = sanitizeKey(matchedPark);
+                            await firebase.database()
+                                .ref(`users/${currentUser.uid}/photos/${key}`)
+                                .set(photos);
+                        }
+                    }
+                }
+
+                updateSyncStatus(`Synced ${matchedCount} albums`, false);
+                console.log(`Photo sync complete. Matched ${matchedCount} albums.`);
+
+            } catch (error) {
+                console.error('Photo sync error:', error);
+
+                if (error.message.includes('401') || error.message.includes('403')) {
+                    // Token expired, need to re-auth
+                    updateSyncStatus('Re-auth needed', false);
+                    localStorage.removeItem('googleAccessToken');
+                } else {
+                    updateSyncStatus('Sync failed', false);
+                }
+            }
+
+            isSyncing = false;
+        }
+
+        async function fetchGooglePhotosAlbums(token) {
+            const albums = [];
+            let pageToken = null;
+
+            do {
+                const url = new URL('https://photoslibrary.googleapis.com/v1/albums');
+                url.searchParams.set('pageSize', '50');
+                if (pageToken) url.searchParams.set('pageToken', pageToken);
+
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Albums fetch failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+                albums.push(...(data.albums || []));
+                pageToken = data.nextPageToken;
+
+            } while (pageToken);
+
+            return albums;
+        }
+
+        async function fetchAlbumPhotos(token, albumId, maxPhotos = 50) {
+            const photos = [];
+
+            const response = await fetch('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    albumId: albumId,
+                    pageSize: Math.min(maxPhotos, 100)
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Photos fetch failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const items = data.mediaItems || [];
+
+            for (const item of items.slice(0, maxPhotos)) {
+                const baseUrl = item.baseUrl;
+                photos.push({
+                    id: item.id,
+                    url: `${baseUrl}=w1024-h768`,
+                    thumbnail: `${baseUrl}=w200-h200-c`,
+                    filename: item.filename || '',
+                    creationTime: item.mediaMetadata?.creationTime || ''
+                });
+            }
+
+            return photos;
+        }
+
+        function findMatchingPark(albumTitle, parkNames) {
+            const normalizedAlbum = normalizeName(albumTitle);
+
+            for (const park of parkNames) {
+                const normalizedPark = normalizeName(park);
+
+                // Exact match
+                if (normalizedAlbum === normalizedPark) return park;
+
+                // Album contains park name
+                if (normalizedAlbum.includes(normalizedPark)) return park;
+
+                // Park name contains album
+                if (normalizedPark.includes(normalizedAlbum) && normalizedAlbum.length > 5) return park;
+            }
+
+            return null;
+        }
+
+        function normalizeName(name) {
+            return name.toLowerCase()
+                .replace(/\s*(sp|shp|sra|sb|snr|state park|state beach|state historic park)\s*/gi, '')
+                .replace(/[^a-z0-9\s]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function updateSyncStatus(text, syncing) {
+            const el = document.getElementById('syncStatus');
+            el.textContent = text;
+            el.className = 'sync-status' + (syncing ? ' syncing' : '');
+        }
+
+        // =====================================================
+        // FILTERING
+        // =====================================================
+
+        function shouldShowPark(name, driveInfo, isVisited) {
+            const filterVisited = document.getElementById('filterVisited').checked;
+            const filterUnvisited = document.getElementById('filterUnvisited').checked;
+            const filterDayTrip = document.getElementById('filterDayTrip').checked;
+            const filterWeekend = document.getElementById('filterWeekend').checked;
+            const filterMultiDay = document.getElementById('filterMultiDay').checked;
+
+            if (filterVisited && !isVisited) return false;
+            if (filterUnvisited && isVisited) return false;
+
+            const hours = (driveInfo.duration_seconds || 0) / 3600;
+            const isDayTrip = hours < 3;
+            const isWeekend = hours >= 3 && hours < 5;
+            const isMultiDay = hours >= 5;
+
+            if (!filterDayTrip && isDayTrip) return false;
+            if (!filterWeekend && isWeekend) return false;
+            if (!filterMultiDay && isMultiDay) return false;
+
+            return true;
+        }
+
+        function updateFilters() {
+            const filterVisited = document.getElementById('filterVisited');
+            const filterUnvisited = document.getElementById('filterUnvisited');
+
+            if (event && event.target === filterVisited && filterVisited.checked) {
+                filterUnvisited.checked = false;
+            } else if (event && event.target === filterUnvisited && filterUnvisited.checked) {
+                filterVisited.checked = false;
+            }
+
+            loadParks();
+        }
+
+        // =====================================================
+        // PARK POPUP
+        // =====================================================
+
+        function showParkPopup(name, coords, driveInfo, isVisited) {
+            const visitData = visitedParks[sanitizeKey(name)] || {};
+            const photos = parkPhotos[sanitizeKey(name)] || [];
+
+            let popupContent = `
+                <div class="park-popup">
+                    <h3>${name}</h3>
+                    <div class="drive-info">
+                        ${driveInfo.duration_text ? `<div>🚗 ${driveInfo.duration_text}</div>` : ''}
+                        ${driveInfo.distance_text ? `<div>📍 ${driveInfo.distance_text}</div>` : ''}
+                    </div>
+
+                    <div class="visit-toggle" onclick="toggleVisited('${escapeHtml(name)}')">
+                        <input type="checkbox" ${isVisited ? 'checked' : ''} onclick="event.stopPropagation(); toggleVisited('${escapeHtml(name)}')">
+                        <label>${isVisited ? 'Visited!' : 'Mark as visited'}</label>
+                    </div>
+                    ${visitData.date ? `<div class="visit-date">Visited on: ${new Date(visitData.date).toLocaleDateString()}</div>` : ''}
+
+                    <div class="photo-section">
+                        <strong>Photos</strong>
+                        ${photos.length > 0 ? `
+                            <div class="photo-grid">
+                                ${photos.slice(0, 6).map((photo, i) => `
+                                    <img class="photo-thumb" src="${photo.thumbnail}" alt="Photo ${i + 1}"
+                                         onclick="openGallery('${escapeHtml(name)}', ${i})">
+                                `).join('')}
+                            </div>
+                            ${photos.length > 6 ? `<a class="view-all-photos" href="#" onclick="openGallery('${escapeHtml(name)}', 0); return false;">View all ${photos.length} photos</a>` : ''}
+                        ` : `
+                            <p class="no-photos">No photos yet. Create a Google Photos album named "${name.replace(/\s*(SP|SHP|SRA|SB|SNR)$/i, '')}" to sync photos automatically.</p>
+                        `}
+                    </div>
+                </div>
+            `;
+
+            const marker = markers[name];
+
+            // Unbind any existing popup and create fresh one
+            marker.unbindPopup();
+            marker.bindPopup(popupContent, {
+                maxWidth: 350,
+                closeButton: true,
+                autoClose: true
+            });
+            marker.openPopup();
+        }
+
+        // =====================================================
+        // VISITED TOGGLE
+        // =====================================================
+
+        function toggleVisited(parkName) {
+            const key = sanitizeKey(parkName);
+            const isCurrentlyVisited = visitedParks[key]?.visited || false;
+
+            const ref = firebase.database().ref(`users/${currentUser.uid}/visited/${key}`);
+
+            if (isCurrentlyVisited) {
+                ref.remove();
+            } else {
+                ref.set({
+                    visited: true,
+                    date: new Date().toISOString(),
+                    name: parkName
+                });
+            }
+        }
+
+        // =====================================================
+        // PHOTO GALLERY
+        // =====================================================
+
+        function openGallery(parkName, index) {
+            const photos = parkPhotos[sanitizeKey(parkName)] || [];
+            if (photos.length === 0) return;
+
+            galleryImages = photos;
+            galleryIndex = index;
+
+            document.getElementById('galleryTitle').textContent = parkName;
+            updateGalleryImage();
+
+            const thumbsContainer = document.getElementById('galleryThumbnails');
+            thumbsContainer.innerHTML = photos.map((photo, i) => `
+                <img src="${photo.thumbnail}" alt="Thumbnail ${i + 1}"
+                     class="${i === index ? 'active' : ''}"
+                     onclick="goToImage(${i})">
+            `).join('');
+
+            document.getElementById('galleryModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateGalleryImage() {
+            const photo = galleryImages[galleryIndex];
+            document.getElementById('galleryImage').src = photo.url;
+            document.getElementById('galleryCounter').textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
+
+            document.querySelectorAll('.gallery-thumbnails img').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === galleryIndex);
+            });
+        }
+
+        function prevImage() {
+            galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateGalleryImage();
+        }
+
+        function nextImage() {
+            galleryIndex = (galleryIndex + 1) % galleryImages.length;
+            updateGalleryImage();
+        }
+
+        function goToImage(index) {
+            galleryIndex = index;
+            updateGalleryImage();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('galleryModal').classList.contains('active')) return;
+
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+
+        // =====================================================
+        // STATS
+        // =====================================================
+
+        function updateStats() {
+            const total = Object.keys(PARKS_DATA).length;
+            const visited = Object.values(visitedParks).filter(v => v.visited).length;
+            const remaining = total - visited;
+            const percent = total > 0 ? (visited / total * 100) : 0;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('visitedCount').textContent = visited;
+            document.getElementById('remainingCount').textContent = remaining;
+            document.getElementById('progressFill').style.width = `${percent}%`;
+        }
+
+        // =====================================================
+        // UTILITIES
+        // =====================================================
+
+        function getMarkerColor(durationSeconds) {
+            if (!durationSeconds) return 'gray';
+            const hours = durationSeconds / 3600;
+            if (hours < 2) return 'green';
+            if (hours < 4) return 'orange';
+            return 'red';
+        }
+
+        function getParkType(name) {
+            if (name.includes('SHP')) return 'historical';
+            if (name.includes('SB')) return 'beach';
+            if (name.includes('SRA')) return 'recreation';
+            if (name.includes('SNR')) return 'reserve';
+            return 'park';
+        }
+
+        function getParkIcon(type) {
+            const icons = {
+                'beach': 'umbrella-beach',
+                'historical': 'landmark',
+                'recreation': 'campground',
+                'reserve': 'leaf',
+                'park': 'tree'
+            };
+            return icons[type] || 'tree';
+        }
+
+        function sanitizeKey(str) {
+            return str.replace(/[.#$\/\[\]]/g, '_');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
