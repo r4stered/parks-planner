@@ -1,0 +1,11 @@
+[project]
+name = "parks"
+version = "0.1.0"
+description = "California State Parks trip planner with interactive map and drive time calculations"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "folium",
+    "googlemaps",
+    "python-dotenv",
+]

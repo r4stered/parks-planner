@@ -1,0 +1,24 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment variables (contains API key and personal address)
+.env
+
+# Generated output files
+output/
+
+# Cached drive times (user-specific)
+res/drive_times.json
+
+# Google OAuth credentials (sensitive)
+credentials.json
+token.json
+firebase-service-account.json

@@ -1,0 +1,538 @@
+{
+    "Anderson Marsh SHP": {
+        "lat": 38.9204097,
+        "lng": -122.6134692
+    },
+    "Andrew Molera SP": {
+        "lat": 36.2884177,
+        "lng": -121.8442571
+    },
+    "Angel Island SP (day use boat dock at finger piers only)": {
+        "lat": 37.860909,
+        "lng": -122.4325682
+    },
+    "Annadel SP": {
+        "lat": 38.4522438,
+        "lng": -122.6346359
+    },
+    "A\u00c3\u00b1o Nuevo SP": {
+        "lat": 37.1082363,
+        "lng": -122.337137
+    },
+    "Antelope Valley CA Poppy Reserve (SNR)": {
+        "lat": 34.7249116,
+        "lng": -118.3969062
+    },
+    "Anza-Borrego Desert SP": {
+        "lat": 33.100492,
+        "lng": -116.3013266
+    },
+    "Armstrong Redwoods SNR": {
+        "lat": 38.5370031,
+        "lng": -123.0063252
+    },
+    "Auburn SRA": {
+        "lat": 38.9037201,
+        "lng": -121.0556301
+    },
+    "Austin Creek SRA": {
+        "lat": 38.5592918,
+        "lng": -123.0108184
+    },
+    "Benbow Lake SRA": {
+        "lat": 40.066486,
+        "lng": -123.7892843
+    },
+    "Benicia SRA": {
+        "lat": 38.0733219,
+        "lng": -122.192645
+    },
+    "Bethany Reservoir SRA": {
+        "lat": 37.7829387,
+        "lng": -121.617005
+    },
+    "Bidwell-Sacramento River SP": {
+        "lat": 39.7303063,
+        "lng": -121.9537478
+    },
+    "Big Basin Redwoods SP": {
+        "lat": 37.1666329,
+        "lng": -122.2509729
+    },
+    "Bolsa Chica SB": {
+        "lat": 33.6955698,
+        "lng": -118.0487973
+    },
+    "Border Field SP": {
+        "lat": 32.542691,
+        "lng": -117.1247102
+    },
+    "Bothe-Napa Valley SP": {
+        "lat": 38.5429637,
+        "lng": -122.5374817
+    },
+    "Brannan Island SRA": {
+        "lat": 38.1102102,
+        "lng": -121.696818
+    },
+    "Butano SP": {
+        "lat": 37.2127648,
+        "lng": -122.3053644
+    },
+    "Calaveras Big Trees SP": {
+        "lat": 38.2775178,
+        "lng": -120.3092982
+    },
+    "California Citrus SHP": {
+        "lat": 33.8986111,
+        "lng": -117.4257031
+    },
+    "Cardiff SB": {
+        "lat": 33.0098231,
+        "lng": -117.27963
+    },
+    "Carlsbad SB": {
+        "lat": 33.1361536,
+        "lng": -117.3383315
+    },
+    "Carpinteria SB": {
+        "lat": 34.39888380000001,
+        "lng": -119.5184564
+    },
+    "Castle Crags SP": {
+        "lat": 41.1482103,
+        "lng": -122.3213725
+    },
+    "Castle Rock SP": {
+        "lat": 37.22982349999999,
+        "lng": -122.1252175
+    },
+    "Caswell Memorial SP": {
+        "lat": 37.693819,
+        "lng": -121.1874767
+    },
+    "China Camp SP": {
+        "lat": 38.0012549,
+        "lng": -122.4910712
+    },
+    "Chino Hills SP": {
+        "lat": 33.95504,
+        "lng": -117.7031562
+    },
+    "Clear Lake SP": {
+        "lat": 39.0106312,
+        "lng": -122.8139383
+    },
+    "Colonel Allensworth SHP": {
+        "lat": 35.8634736,
+        "lng": -119.3898788
+    },
+    "Colusa-Sacramento River SRA": {
+        "lat": 39.2179335,
+        "lng": -122.0148504
+    },
+    "Crystal Cove SP": {
+        "lat": 33.5800786,
+        "lng": -117.8050864
+    },
+    "Cuyamaca Rancho SP": {
+        "lat": 32.9247494,
+        "lng": -116.5708816
+    },
+    "D. L. Bliss SP": {
+        "lat": 38.97789909999999,
+        "lng": -120.1027489
+    },
+    "Del Norte Coast Redwoods SP": {
+        "lat": 41.6680924,
+        "lng": -124.1139454
+    },
+    "Doheny SB": {
+        "lat": 33.4610139,
+        "lng": -117.6775872
+    },
+    "Donner Memorial SP": {
+        "lat": 39.3159261,
+        "lng": -120.239782
+    },
+    "Ed Z'Berg Sugar Pine Point SP": {
+        "lat": 39.0610186,
+        "lng": -120.1137988
+    },
+    "El Capitan SB": {
+        "lat": 34.4595891,
+        "lng": -120.0245304
+    },
+    "Emerald Bay SP": {
+        "lat": 38.9499894,
+        "lng": -120.1082038
+    },
+    "Emma Wood SB": {
+        "lat": 34.2821765,
+        "lng": -119.3164328
+    },
+    "Folsom Lake SRA": {
+        "lat": 38.77265149999999,
+        "lng": -121.1085636
+    },
+    "Folsom Powerhouse SHP": {
+        "lat": 38.6805029,
+        "lng": -121.1758423
+    },
+    "Fort Ross SHP": {
+        "lat": 38.516043,
+        "lng": -123.2459718
+    },
+    "Fremont Peak SP": {
+        "lat": 36.7619201,
+        "lng": -121.5034543
+    },
+    "Gaviota SP": {
+        "lat": 34.4733557,
+        "lng": -120.229478
+    },
+    "George J. Hatfield SRA": {
+        "lat": 37.356222,
+        "lng": -120.9593082
+    },
+    "Grizzly Creek Redwoods SP": {
+        "lat": 40.4867464,
+        "lng": -123.9050925
+    },
+    "Grover Hot Springs SP": {
+        "lat": 38.6982556,
+        "lng": -119.8411659
+    },
+    "Half Moon Bay SB": {
+        "lat": 37.4760761,
+        "lng": -122.4489731
+    },
+    "Hendy Woods SP": {
+        "lat": 39.0698015,
+        "lng": -123.4709108
+    },
+    "Henry Cowell Redwoods SP": {
+        "lat": 37.0402063,
+        "lng": -122.0646118
+    },
+    "Henry W. Coe SP": {
+        "lat": 37.1867545,
+        "lng": -121.5471647
+    },
+    "Humboldt Redwoods SP": {
+        "lat": 40.3146515,
+        "lng": -123.9776858
+    },
+    "Huntington SB": {
+        "lat": 36.778261,
+        "lng": -119.4179324
+    },
+    "Indian Grinding Rock SHP": {
+        "lat": 38.425104,
+        "lng": -120.6408647
+    },
+    "Jack London SHP": {
+        "lat": 38.3563171,
+        "lng": -122.5417694
+    },
+    "Jedediah Smith Redwoods SP": {
+        "lat": 41.7955087,
+        "lng": -124.1046827
+    },
+    "Julia Pfeiffer Burns SP": {
+        "lat": 36.1691714,
+        "lng": -121.671498
+    },
+    "Kenneth Hahn (Baldwin Hills Overlook only)": {
+        "lat": 34.012322,
+        "lng": -118.3717552
+    },
+    "Kings Beach SRA": {
+        "lat": 39.2366319,
+        "lng": -120.0253758
+    },
+    "La Purisima Mission SHP": {
+        "lat": 34.66977,
+        "lng": -120.420619
+    },
+    "Lake Oroville SRA": {
+        "lat": 39.5349442,
+        "lng": -121.4695673
+    },
+    "Lake Perris SRA": {
+        "lat": 33.8569506,
+        "lng": -117.1764723
+    },
+    "Leo Carrillo SP": {
+        "lat": 34.0621981,
+        "lng": -118.9279067
+    },
+    "MacKerricher SP": {
+        "lat": 39.4884502,
+        "lng": -123.7878557
+    },
+    "Malakoff Diggins SHP": {
+        "lat": 39.3707557,
+        "lng": -120.8979645
+    },
+    "Malibu Creek SP": {
+        "lat": 34.0979551,
+        "lng": -118.7314142
+    },
+    "Malibu Lagoon SB": {
+        "lat": 34.0335749,
+        "lng": -118.6804346
+    },
+    "Manresa SB": {
+        "lat": 36.9321893,
+        "lng": -121.8630067
+    },
+    "Marshall Gold Discovery SHP": {
+        "lat": 38.8017359,
+        "lng": -120.8946101
+    },
+    "McArthur-Burney Falls Memorial SP": {
+        "lat": 41.0124498,
+        "lng": -121.6502456
+    },
+    "McConnell SRA": {
+        "lat": 37.4158738,
+        "lng": -120.7110885
+    },
+    "McGrath SB": {
+        "lat": 34.4188193,
+        "lng": -119.699662
+    },
+    "Millerton Lake SRA": {
+        "lat": 37.0202397,
+        "lng": -119.6964205
+    },
+    "Mono Lake Tufa SNR": {
+        "lat": 37.9787925,
+        "lng": -119.132492
+    },
+    "Morro Bay SP": {
+        "lat": 35.3526935,
+        "lng": -120.8392652
+    },
+    "Mount Diablo SP": {
+        "lat": 37.8808335,
+        "lng": -121.9173287
+    },
+    "Mount San Jacinto SP": {
+        "lat": 33.7477721,
+        "lng": -116.7147403
+    },
+    "Mount Tamalpais SP": {
+        "lat": 37.8890472,
+        "lng": -122.6107881
+    },
+    "Natural Bridges SB": {
+        "lat": 34.420285,
+        "lng": -119.698935
+    },
+    "New Brighton SB": {
+        "lat": 36.9784397,
+        "lng": -121.9382294
+    },
+    "Olompali SHP": {
+        "lat": 38.149622,
+        "lng": -122.5670438
+    },
+    "Pacheco SP": {
+        "lat": 37.0650751,
+        "lng": -121.2116388
+    },
+    "Palomar Mountain SP": {
+        "lat": 33.3390844,
+        "lng": -116.9067302
+    },
+    "Patrick\u00e2\u20ac\u2122s Point SP": {
+        "lat": 36.778261,
+        "lng": -119.4179324
+    },
+    "Pescadero SB": {
+        "lat": 34.425458,
+        "lng": -119.7494709
+    },
+    "Pfeiffer Big Sur SP": {
+        "lat": 36.1588246,
+        "lng": -121.5267654
+    },
+    "Picacho SRA": {
+        "lat": 33.0080163,
+        "lng": -114.6200472
+    },
+    "Pismo SB": {
+        "lat": 35.1427533,
+        "lng": -120.6412827
+    },
+    "Point Lobos SNR": {
+        "lat": 36.5177696,
+        "lng": -121.9446791
+    },
+    "Point Mugu SP": {
+        "lat": 34.1095357,
+        "lng": -119.0074121
+    },
+    "Pomponio SB": {
+        "lat": 34.420285,
+        "lng": -119.698935
+    },
+    "Portola Redwoods SP": {
+        "lat": 37.2621402,
+        "lng": -122.195833
+    },
+    "Prairie Creek Redwoods SP": {
+        "lat": 41.4015995,
+        "lng": -124.0416249
+    },
+    "Red Rock Canyon SP": {
+        "lat": 35.3843718,
+        "lng": -117.9623195
+    },
+    "Refugio SB": {
+        "lat": 34.4631659,
+        "lng": -120.0701354
+    },
+    "Richardson Grove SP": {
+        "lat": 40.01925689999999,
+        "lng": -123.7925147
+    },
+    "Robert H. Meyer Memorial SB": {
+        "lat": 34.0381442,
+        "lng": -118.8762338
+    },
+    "Russian Gulch SP": {
+        "lat": 39.3325257,
+        "lng": -123.8061091
+    },
+    "Saddleback Butte SP": {
+        "lat": 34.6898696,
+        "lng": -117.8249619
+    },
+    "Salt Point SP": {
+        "lat": 38.57648470000001,
+        "lng": -123.3317814
+    },
+    "Salton Sea SRA": {
+        "lat": 33.5088385,
+        "lng": -115.9181159
+    },
+    "Samuel P. Taylor SP": {
+        "lat": 38.0242948,
+        "lng": -122.7213977
+    },
+    "San Buenaventura SB": {
+        "lat": 34.284239,
+        "lng": -119.184987
+    },
+    "San Clemente SB": {
+        "lat": 34.3990304,
+        "lng": -119.7068437
+    },
+    "San Elijo SB": {
+        "lat": 33.0214987,
+        "lng": -117.2842602
+    },
+    "San Gregorio SB": {
+        "lat": 37.3229987,
+        "lng": -122.4033078
+    },
+    "San Luis Reservoir SRA": {
+        "lat": 37.0797973,
+        "lng": -121.0982009
+    },
+    "San Onofre SB": {
+        "lat": 33.3728077,
+        "lng": -117.5656012
+    },
+    "Seacliff SB": {
+        "lat": 34.406,
+        "lng": -119.7453103
+    },
+    "Silver Strand SB": {
+        "lat": 34.1506785,
+        "lng": -119.2197283
+    },
+    "Silverwood Lake SRA": {
+        "lat": 34.2857189,
+        "lng": -117.3525307
+    },
+    "Sinkyone Wilderness SP": {
+        "lat": 39.9202867,
+        "lng": -123.9396803
+    },
+    "Sonoma Coast SP": {
+        "lat": 38.4242109,
+        "lng": -123.1011733
+    },
+    "South Carlsbad SB": {
+        "lat": 33.1026212,
+        "lng": -117.320145
+    },
+    "South Yuba River SP": {
+        "lat": 39.2927268,
+        "lng": -121.1935665
+    },
+    "Standish Hickey SRA": {
+        "lat": 39.8774712,
+        "lng": -123.7375985
+    },
+    "Sugarloaf Ridge SP": {
+        "lat": 38.4371892,
+        "lng": -122.51629
+    },
+    "Sunset SB": {
+        "lat": 34.420285,
+        "lng": -119.698935
+    },
+    "The Forest of Nisene Marks SP": {
+        "lat": 37.0329085,
+        "lng": -121.8925277
+    },
+    "Tomales Bay SP": {
+        "lat": 38.123351,
+        "lng": -122.9012578
+    },
+    "Topanga SP": {
+        "lat": 34.0930059,
+        "lng": -118.5872898
+    },
+    "Torrey Pines SB": {
+        "lat": 32.9371818,
+        "lng": -117.2616585
+    },
+    "Torrey Pines SNR": {
+        "lat": 32.9209345,
+        "lng": -117.2514443
+    },
+    "Tule Elk SNR": {
+        "lat": 35.3327551,
+        "lng": -119.3635367
+    },
+    "Turlock Lake SRA": {
+        "lat": 37.6258955,
+        "lng": -120.5909176
+    },
+    "Van Damme SP": {
+        "lat": 39.2757228,
+        "lng": -123.7642849
+    },
+    "Wilder Ranch SP": {
+        "lat": 36.9608175,
+        "lng": -122.0833662
+    },
+    "Will Rogers SHP": {
+        "lat": 34.0549876,
+        "lng": -118.5125758
+    },
+    "William B. Ide Adobe SHP": {
+        "lat": 40.196773,
+        "lng": -122.225351
+    },
+    "Woodson Bridge SRA": {
+        "lat": 39.9151405,
+        "lng": -122.0851666
+    }
+}
