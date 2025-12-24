@@ -96,6 +96,10 @@ def generate_site():
     )
 
     print("Writing output file...")
+    
+    # Ensure output directory exists
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(template)
 
