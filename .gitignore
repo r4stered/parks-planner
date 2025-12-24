@@ -12,7 +12,7 @@ wheels/
 # Environment variables (contains API key and personal address)
 .env
 
-# Generated output files
+# Generated output files (contains Firebase secrets)
 output/
 
 # Google OAuth credentials (sensitive)

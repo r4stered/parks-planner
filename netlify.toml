@@ -1,7 +1,6 @@
 [build]
+command = "pip install python-dotenv folium googlemaps && python generate_site.py"  environment = { SECRETS_SCAN_OMIT_PATHS = "output/,templates/" }[[redirects]]
 publish = "output"
-command = "pip install python-dotenv folium googlemaps && python generate_site.py"
-[[redirects]]
 from = "/"
 to = "/parks_site.html"
 status = 200
