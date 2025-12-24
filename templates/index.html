@@ -949,7 +949,7 @@
             return new Promise((resolve) => {
                 if (!currentUser) { resolve(); return; }
 
-                const ref = firebase.database().ref(`users/${currentUser.uid}/photos`);
+                const ref = firebase.database().ref(`shared/photos`);
                 ref.on('value', (snapshot) => {
                     parkPhotos = snapshot.val() || {};
                     resolve();
@@ -1114,9 +1114,9 @@
                     }
                 });
 
-                // Save photo metadata to Firebase Realtime Database
+                // Save photo metadata to Firebase Realtime Database (shared across all users)
                 await firebase.database()
-                    .ref(`users/${currentUser.uid}/photos/${key}`)
+                    .ref(`shared/photos/${key}`)
                     .set(allPhotos);
 
                 // Update local cache
@@ -1226,7 +1226,7 @@
                             <p class="no-photos">No photos yet.</p>
                         `}
                         <button class="add-photos-btn" onclick="openPhotoPicker('${escapeHtml(name)}')">
-                            � Upload Photos
+                            📤 Upload Photos
                         </button>
                     </div>
                 </div>
