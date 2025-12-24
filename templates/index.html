@@ -32,9 +32,13 @@
 
             .user-panel,
             .stats-panel,
-            .filter-panel {
-                font-size: 12px;
-                padding: 8px 12px;
+            .filter-panel,
+            .legend {
+                font-size: 11px;
+                padding: 6px 8px;
+                border-radius: 6px;
+                box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+                background: rgba(255, 255, 255, 0.95);
             }
 
             .user-panel {
@@ -42,6 +46,8 @@
                 top: 5px;
                 left: 5px;
                 right: 5px;
+                height: auto;
+                max-height: 45px;
                 flex-wrap: wrap;
                 z-index: 1001;
             }
@@ -50,18 +56,29 @@
                 position: fixed;
                 top: 60px;
                 right: 5px;
-                min-width: 150px;
+                left: auto;
+                width: 140px;
+                min-width: auto;
                 z-index: 1001;
             }
 
             .filter-panel {
                 position: fixed;
-                bottom: 60px;
+                top: 60px;
                 left: 5px;
-                right: 5px;
-                max-height: 120px;
+                right: 155px;
+                max-height: 80px;
                 overflow-y: auto;
                 z-index: 1001;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 3px;
+            }
+
+            .filter-panel label {
+                margin-bottom: 2px;
+                font-size: 10px;
+                white-space: nowrap;
             }
 
             .legend {
@@ -70,16 +87,52 @@
                 left: 5px;
                 right: 5px;
                 z-index: 1001;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 6px;
+                max-height: 50px;
+                overflow: hidden;
+            }
+
+            .legend h4 {
+                margin: 0 5px 0 0;
+                font-size: 11px;
+            }
+
+            .legend-item {
+                margin-bottom: 0;
+                font-size: 10px;
             }
 
             .user-panel .user-name {
-                font-size: 12px;
-                margin: 0 5px;
+                font-size: 11px;
+                margin: 0 3px;
             }
 
             .user-panel img {
-                width: 24px;
-                height: 24px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .user-panel .logout-btn {
+                font-size: 9px;
+                padding: 2px 5px;
+                margin: 1px;
+            }
+
+            .user-panel .sync-status {
+                font-size: 10px;
+            }
+
+            .stats-panel .stat-row {
+                font-size: 11px;
+                margin-bottom: 3px;
+            }
+
+            .stats-panel h4 {
+                margin-bottom: 5px;
+                font-size: 11px;
             }
         }
 
